@@ -48,6 +48,10 @@ main {
   margin-left: 0.5rem;
 }
 
+.cards{
+    display: flex;
+}
+
 aside {
   grid-area: aside;
   margin-right: 0.5rem;
@@ -92,6 +96,10 @@ form > button {
     border-radius: 20px;
 }
 
+.form >h1:hover{
+    cursor: pointer;
+}
+
 body {
   margin: 0;
 }
@@ -99,14 +107,10 @@ body {
 .home {
   border: 3px solid black;
   margin: 5px;
-  padding: 5px;
+  padding: 15px;
   text-align: center;
   border-radius: 20px;
   background: white;
-}
-
-img {
-  border-radius: 50%;
 }
 
 @media (max-width: 500px) {

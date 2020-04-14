@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Homes from './components/Homes'
+import Map from './components/Map'
 
 export default class App extends Component {
   render() {
@@ -17,8 +18,15 @@ export default class App extends Component {
          <li><a href="https://www.realtor.com/">Realtor</a></li>
      </ul>
      </nav>
-
         <Homes />
+        <aside>
+        <Map
+        google={this.props.google}
+        center={{lat: 39.8283, lng: 98.5795}}
+        height='300px'
+        zoom={15}
+        />
+        </aside>
       </div>
     )
   }

@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
 import Form from './Form'
+let baseURL = process.env.REACT_APP_BASEURL
+
+if (process.env.NODE_ENV === 'development') {
+  baseURL = 'http://localhost:3000'
+} else {
+  baseURL = 'https://home-hunter-api.herokuapp.com/'
+}
+console.log('Current base URL:', baseURL)
 
 export default class Homes extends Component {
   constructor() {
@@ -13,7 +21,7 @@ export default class Homes extends Component {
 
   async getHomes() {
     try {
-      let response = await fetch('http://localhost:3000/homes')
+      let response = await fetch(baseURL+'/homes')
       let data = await response.json()
       let homes = [...data]
       this.setState({
@@ -27,7 +35,7 @@ export default class Homes extends Component {
   async handleAddHome(e, home) {
     e.preventDefault()
     try {
-      let response = await fetch('http://localhost:3000/homes', {
+      let response = await fetch(baseURL+'/homes', {
         body: JSON.stringify(home),
         method: 'POST',
         headers: {
@@ -50,34 +58,16 @@ export default class Homes extends Component {
     this.getHomes()
   }
 
-
- // async handleDelete(id){
- // try {
- //   let response = await fetch('http://localhost3000/homes/' + id, {
- //     method: 'DELETE'
- //   })
- //   let data = await response.json()
- //   const foundHome = this.state.homes.findIndex(home => home._id === id)
- //   const copyHomes = [...this.state.homes]
- //   copyHomes.splice(foundHome, 1)
- //   this.setState({
- //     homes: copyHomes
- //   })
- // } catch(e){
- //   console.error(e);
- // }
- // }
-
  async deleteHome(id){
-     console.log(`I made a delete rquest to here: http://localhost:3000/homes/${id}`)
+     console.log(`I made a delete rquest to here:` + baseURL+'homes'+`${id}`)
 try {
-  let response = await fetch('http://localhost:3000/homes/' + id, {
+  let response = await fetch(baseURL + '/homes/' + id, {
     method: 'DELETE'
   })
   let data = await response.json()
   const foundHome = this.state.homes.findIndex(home => home._id === id)
   const copyHomes = [...this.state.homes]
-  copyHomes.splice(foundHome, 1)
+  copyHomes.splice(foundHome, id)
   this.setState({
     homes: copyHomes
   })
@@ -93,6 +83,7 @@ try {
         <main>
         <h1>Track all your housing options!</h1>
          <Form handleAddHome={this.handleAddHome} />
+         <div className="cards">
             {this.state.homes.map(home => (
                 <div className="home">
                 <h3>Address: {home.address}</h3>
@@ -108,6 +99,7 @@ try {
                 <button onClick={()=> {this.deleteHome(home.id)}}>Delete</button>
                 </div>
             ))}
+            </div>
         </main>
       </>
     )
